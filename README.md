@@ -1,1 +1,1 @@
-Currently hosted at align.iegs.us if you want to use it.
+Currently hosted at https://alignment.iegs.us if you want to use it.
