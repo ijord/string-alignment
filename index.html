@@ -62,14 +62,6 @@ input[type=number]:focus {
   border-color: #3b82f6;
   background: #eff6ff;
 }
-.letter {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #b45309;
-  text-align: center;
-  line-height: 1;
-  margin-bottom: 3px;
-}
 .meas-label {
   font-size: 0.62rem;
   color: #94a3b8;
@@ -79,135 +71,12 @@ input[type=number]:focus {
 }
 .input-cell { display: flex; flex-direction: column; align-items: center; }
 
-/* ── Diagram container ── */
-#diagram-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-}
-#car-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+/* ── Toe colors ── */
+.toe-in   { color: #0891b2 !important; }
+.toe-out  { color: #a21caf !important; }
+.toe-zero { color: #94a3b8 !important; }
 
-/* Measurement input groups floated into the diagram space */
-.diag-inputs {
-  display: grid;
-  /* cols: left-inputs | car-body | right-inputs */
-  grid-template-columns: 90px 1fr 90px;
-  grid-template-rows: auto auto auto auto;
-  gap: 4px 8px;
-  max-width: 480px;
-  margin: 0 auto;
-  align-items: center;
-}
-/* String labels */
-.str-label {
-  font-size: 0.65rem;
-  color: #fbbf24;
-  text-align: center;
-  padding: 2px 0;
-  grid-column: 1 / -1;
-  opacity: 0.8;
-}
-
-/* Car illustration (middle column, spans rows) */
-.car-col {
-  grid-column: 2;
-  grid-row: 1 / 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 0;
-}
-.car-body {
-  background: #f1f5f9;
-  border: 2px solid #cbd5e1;
-  border-radius: 8px;
-  width: 110px;
-  padding: 12px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-.axle-row {
-  display: flex;
-  gap: 48px;
-  align-items: center;
-}
-.wheel-box {
-  width: 22px;
-  height: 46px;
-  border-radius: 4px;
-  border: 2px solid #94a3b8;
-  background: #cbd5e1;
-}
-.axle-label {
-  font-size: 0.65rem;
-  color: #94a3b8;
-  text-align: center;
-  margin-top: 4px;
-}
-.front-label, .rear-label {
-  font-size: 0.62rem;
-  color: #94a3b8;
-  letter-spacing: 1px;
-}
-
-/* Left / Right input columns */
-.left-col  { grid-column: 1; text-align: right; }
-.right-col { grid-column: 3; text-align: left; }
-
-.side-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 8px 4px;
-}
-.side-group.right-side {
-  align-items: flex-start;
-}
-.side-group.left-side {
-  align-items: flex-end;
-}
-
-/* String lines flanking the car */
-.diagram-outer {
-  display: flex;
-  align-items: stretch;
-  max-width: 480px;
-  margin: 0 auto;
-  gap: 0;
-}
-.string-line {
-  width: 3px;
-  background: linear-gradient(to bottom, #fbbf24, #f59e0b);
-  border-radius: 2px;
-  flex-shrink: 0;
-  margin: 4px 0;
-  opacity: 0.7;
-}
-.diagram-center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-/* Wheel input pairs (front/back measurements per wheel) */
-.wheel-inputs {
-  display: flex;
-  gap: 10px;
-  padding: 6px 8px;
-  justify-content: space-between;
-}
-.wheel-pair { display: flex; gap: 8px; }
-
-/* ── Results ── */
+/* ── Tire cards (diff panel) ── */
 .tires-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -219,24 +88,12 @@ input[type=number]:focus {
   padding: 12px 8px;
   text-align: center;
   border: 1.5px solid #e2e8f0;
-  transition: border-color 0.3s;
 }
-.tire-card .tc-name { font-size: 0.72rem; color: #64748b; margin-bottom: 8px; }
-.tire-card .tc-val {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-top: 6px;
-  transition: color 0.3s;
-}
-.tire-card .tc-lbl { font-size: 0.72rem; margin-top: 2px; transition: color 0.3s; }
-.toe-in  { color: #0891b2 !important; }
-.toe-out { color: #a21caf !important; }
-.toe-zero { color: #94a3b8 !important; }
-.border-in  { border-color: #a5f3fc !important; }
-.border-out { border-color: #f0abfc !important; }
-.border-zero { border-color: #e2e8f0 !important; }
+.tire-card .tc-name { font-size: 0.72rem; color: #64748b; margin-bottom: 4px; }
+.tire-card .tc-val  { font-size: 1.25rem; font-weight: 700; margin-top: 4px; }
+.tire-card .tc-lbl  { font-size: 0.72rem; margin-top: 2px; }
 
-/* ── Summary ── */
+/* ── Summary grid ── */
 .summary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -250,12 +107,7 @@ input[type=number]:focus {
   border: 1px solid #e2e8f0;
 }
 .sum-item .si-label { font-size: 0.72rem; color: #64748b; }
-.sum-item .si-val {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1d4ed8;
-  margin-top: 4px;
-}
+.sum-item .si-val   { font-size: 1.15rem; font-weight: 700; color: #1d4ed8; margin-top: 4px; }
 .sum-item.full-width { grid-column: 1 / -1; }
 
 /* ── Params row ── */
@@ -265,25 +117,82 @@ input[type=number]:focus {
   justify-content: center;
   flex-wrap: wrap;
 }
-.param-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
+.param-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .param-item label { font-size: 0.72rem; color: #64748b; }
 
-/* ── Canvas tire indicators ── */
+/* ── Read-only param display (After panel) ── */
+.param-display {
+  width: 72px;
+  padding: 7px 4px;
+  background: #f8fafc;
+  border: 1.5px dashed #e2e8f0;
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  text-align: center;
+  font-family: inherit;
+}
+
+/* ── Canvas ── */
 canvas.tire-indicator { display: block; margin: 0 auto; }
 
-/* ── Thrust canvas ── */
-#thrust-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+/* ── Panel system ── */
+.panels-outer {
+  overflow: hidden;
+  width: 100%;
 }
-#thrust-wrap .si-label { font-size: 0.72rem; color: #64748b; }
+.panels-track {
+  display: flex;
+  transition: transform 0.3s ease;
+  will-change: transform;
+  align-items: flex-start;
+}
+.panel {
+  min-width: 100%;
+  flex: 0 0 100%;
+}
+
+/* ── Panel header ── */
+.panel-header {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #1d4ed8;
+  padding: 10px 0 4px;
+}
+
+/* ── Nav dots ── */
+.nav-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px 8px;
+}
+.nav-dot {
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #e2e8f0;
+  color: #64748b;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.nav-dot.active { background: #1d4ed8; color: #ffffff; }
+
+/* ── Desktop: 3 panels side by side ── */
+@media (min-width: 1024px) {
+  .panels-outer { overflow: visible; }
+  .panels-track { transform: none !important; gap: 4px; }
+  .panel { min-width: 0; flex: 1; }
+  .nav-dots { display: none; }
+  .panel-header { padding-top: 4px; }
+}
 </style>
 </head>
 <body>
@@ -291,50 +200,55 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
 <h1>DIY String Alignment Calculator</h1>
 <p style="text-align:center; color:#64748b; margin-top:4px; margin-bottom:0;">Align your car at home with two strings and a ruler</p>
 
+<!-- Nav dots — hidden on desktop -->
+<div class="nav-dots">
+  <button class="nav-dot active" onclick="goTo(0)">Before</button>
+  <button class="nav-dot"        onclick="goTo(1)">After</button>
+  <button class="nav-dot"        onclick="goTo(2)">Difference</button>
+</div>
+
+<div class="panels-outer" id="panels-outer">
+  <div class="panels-track" id="panels-track">
+
 
 <!-- ═══════════════════════════════════════
-     MAIN CARD — params + diagram
+     PANEL 0 — BEFORE
   ═══════════════════════════════════════ -->
-<div class="card">
-  <div class="params-row" style="margin-bottom:14px;">
-    <div class="param-item">
-      <input type="number" id="I" step="0.01" placeholder="0.000">
-      <label>Front wheel Ø</label>
-    </div>
-    <div class="param-item">
-      <input type="number" id="J" step="0.01" placeholder="0.000">
-      <label>Rear wheel Ø</label>
-    </div>
-    <div class="param-item">
-      <input type="number" id="K" step="0.01" placeholder="0.000">
-      <label>Wheelbase</label>
-    </div>
-  </div>
+<div class="panel">
+  <div class="panel-header">Before</div>
 
-  <!-- Layout: inputs+car in one flex, strings now live inside the input columns -->
-  <div>
+  <div class="card">
+    <div class="params-row" style="margin-bottom:14px;">
+      <div class="param-item">
+        <input type="number" id="I_b" step="0.01" placeholder="0.00">
+        <label>Front wheel Ø</label>
+      </div>
+      <div class="param-item">
+        <input type="number" id="J_b" step="0.01" placeholder="0.00">
+        <label>Rear wheel Ø</label>
+      </div>
+      <div class="param-item">
+        <input type="number" id="K_b" step="0.01" placeholder="0.00">
+        <label>Wheelbase</label>
+      </div>
+    </div>
 
-    <!-- CENTER: 5-col layout — inputs | left tires | stats | right tires | inputs -->
     <div style="display:flex; flex-direction:column;">
-
       <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▲ FRONT</div>
-
       <div style="display:flex; align-items:stretch; gap:4px; justify-content:center;">
 
-        <!-- Col 1: Left inputs + string — A/B top, C/D bottom; string on right (inner) side -->
+        <!-- Col 1: Left inputs + string -->
         <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <!-- Inputs -->
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:0;">
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
             <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="A" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="B" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+              <div class="input-cell"><input type="number" id="A_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="B_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="C" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="D" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+              <div class="input-cell"><input type="number" id="C_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="D_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
             </div>
           </div>
-          <!-- String bar (inner side, between inputs and tires) -->
           <div style="display:flex; flex-direction:column; align-items:center; margin-left:4px;">
             <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
             <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
@@ -342,19 +256,17 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
           </div>
         </div>
 
-        <!-- Col 2: Left tires — FL top, RL bottom -->
+        <!-- Col 2: Left tires -->
         <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
-          <!-- Front: canvas then numbers tight below -->
           <div style="display:flex; flex-direction:column; align-items:center;">
-            <canvas class="tire-indicator" id="cvs-fl" width="72" height="100"></canvas>
-            <div id="val-fl" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
-            <div id="lbl-fl" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <canvas class="tire-indicator" id="cvs-fl_b" width="72" height="100"></canvas>
+            <div id="val-fl_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fl_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
-          <!-- Rear: canvas+numbers as a group pushed to bottom -->
           <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
-            <canvas class="tire-indicator" id="cvs-rl" width="72" height="100"></canvas>
-            <div id="val-rl" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
-            <div id="lbl-rl" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <canvas class="tire-indicator" id="cvs-rl_b" width="72" height="100"></canvas>
+            <div id="val-rl_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rl_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
         </div>
 
@@ -362,96 +274,289 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
         <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px;">
           <div style="text-align:center;">
             <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Front Toe</div>
-            <div id="total-front" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
-            <div id="lbl-total-front" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <div id="total-front_b" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-front_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
           <div style="text-align:center;">
             <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Thrust</div>
-            <canvas id="cvs-thrust-mini" width="52" height="66" style="display:block; margin:4px auto 2px;"></canvas>
-            <div id="thrust-val" class="si-val" style="font-size:1rem;">—</div>
-            <div id="lbl-thrust" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <canvas id="cvs-thrust-mini_b" width="52" height="66" style="display:block; margin:4px auto 2px;"></canvas>
+            <div id="thrust-val_b" class="si-val" style="font-size:1rem;">—</div>
+            <div id="lbl-thrust_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
           <div style="text-align:center;">
             <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Rear Toe</div>
-            <div id="total-rear" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
-            <div id="lbl-total-rear" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <div id="total-rear_b" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-rear_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
         </div>
 
-        <!-- Col 4: Right tires — FR top, RR bottom -->
+        <!-- Col 4: Right tires -->
         <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
-          <!-- Front: canvas then numbers tight below -->
           <div style="display:flex; flex-direction:column; align-items:center;">
-            <canvas class="tire-indicator" id="cvs-fr" width="72" height="100"></canvas>
-            <div id="val-fr" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
-            <div id="lbl-fr" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <canvas class="tire-indicator" id="cvs-fr_b" width="72" height="100"></canvas>
+            <div id="val-fr_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fr_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
-          <!-- Rear: canvas+numbers as a group pushed to bottom -->
           <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
-            <canvas class="tire-indicator" id="cvs-rr" width="72" height="100"></canvas>
-            <div id="val-rr" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
-            <div id="lbl-rr" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+            <canvas class="tire-indicator" id="cvs-rr_b" width="72" height="100"></canvas>
+            <div id="val-rr_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rr_b" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
           </div>
         </div>
 
-        <!-- Col 5: Right string + inputs — E/F top, G/H bottom; string on left (inner) side -->
+        <!-- Col 5: Right string + inputs -->
         <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <!-- String bar (inner side, between tires and inputs) -->
           <div style="display:flex; flex-direction:column; align-items:center; margin-right:4px;">
             <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
             <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
             <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
           </div>
-          <!-- Inputs -->
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:0;">
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
             <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="E" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="F" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+              <div class="input-cell"><input type="number" id="E_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="F_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="G" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="H" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+              <div class="input-cell"><input type="number" id="G_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="H_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
             </div>
           </div>
         </div>
 
-      </div><!-- end 5-col flex -->
-
+      </div><!-- end 5-col -->
       <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▼ REAR</div>
     </div>
+  </div><!-- end main card -->
 
+  <div class="card">
+    <div class="card-title">Optional</div>
+    <div style="display:flex; align-items:flex-end; justify-content:center; gap:24px; flex-wrap:wrap;">
+      <div class="param-item">
+        <input type="number" id="SS_b" step="0.01" placeholder="---">
+        <label>String Width</label>
+      </div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Front Track</div>
+          <div id="front-track_b" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Rear Track</div>
+          <div id="rear-track_b" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Track Difference</div>
+          <div id="track-diff_b" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
+</div><!-- end panel Before -->
 
 
 <!-- ═══════════════════════════════════════
-     TRACK WIDTH CARD
+     PANEL 1 — AFTER
   ═══════════════════════════════════════ -->
-<div class="card">
-  <div class="card-title">Optional</div>
-  <div style="display:flex; align-items:flex-end; justify-content:center; gap:24px; flex-wrap:wrap;">
-    <div class="param-item">
-      <input type="number" id="SS" step="0.01" placeholder="---">
-      <label>String Width</label>
+<div class="panel">
+  <div class="panel-header">After</div>
+
+  <div class="card">
+    <div class="params-row" style="margin-bottom:14px;">
+      <div class="param-item">
+        <div class="param-display" id="show-I_a">—</div>
+        <label>Front wheel Ø</label>
+      </div>
+      <div class="param-item">
+        <div class="param-display" id="show-J_a">—</div>
+        <label>Rear wheel Ø</label>
+      </div>
+      <div class="param-item">
+        <div class="param-display" id="show-K_a">—</div>
+        <label>Wheelbase</label>
+      </div>
     </div>
-    <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
-      <div style="text-align:center;">
-        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Front Track</div>
-        <div id="front-track" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+
+    <div style="display:flex; flex-direction:column;">
+      <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▲ FRONT</div>
+      <div style="display:flex; align-items:stretch; gap:4px; justify-content:center;">
+
+        <!-- Col 1: Left inputs + string -->
+        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="A_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="B_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="C_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="D_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; margin-left:4px;">
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          </div>
+        </div>
+
+        <!-- Col 2: Left tires -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <canvas class="tire-indicator" id="cvs-fl_a" width="72" height="100"></canvas>
+            <div id="val-fl_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fl_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
+            <canvas class="tire-indicator" id="cvs-rl_a" width="72" height="100"></canvas>
+            <div id="val-rl_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rl_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 3: Center stats -->
+        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px;">
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Front Toe</div>
+            <div id="total-front_a" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-front_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Thrust</div>
+            <canvas id="cvs-thrust-mini_a" width="52" height="66" style="display:block; margin:4px auto 2px;"></canvas>
+            <div id="thrust-val_a" class="si-val" style="font-size:1rem;">—</div>
+            <div id="lbl-thrust_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Rear Toe</div>
+            <div id="total-rear_a" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-rear_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 4: Right tires -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <canvas class="tire-indicator" id="cvs-fr_a" width="72" height="100"></canvas>
+            <div id="val-fr_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fr_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
+            <canvas class="tire-indicator" id="cvs-rr_a" width="72" height="100"></canvas>
+            <div id="val-rr_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rr_a" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 5: Right string + inputs -->
+        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
+          <div style="display:flex; flex-direction:column; align-items:center; margin-right:4px;">
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          </div>
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="E_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="F_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="G_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="H_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end 5-col -->
+      <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▼ REAR</div>
+    </div>
+  </div><!-- end main card -->
+
+  <div class="card">
+    <div class="card-title">Optional</div>
+    <div style="display:flex; align-items:flex-end; justify-content:center; gap:24px; flex-wrap:wrap;">
+      <div class="param-item">
+        <div class="param-display" id="show-SS_a">---</div>
+        <label>String Width</label>
       </div>
-      <div style="text-align:center;">
-        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Rear Track</div>
-        <div id="rear-track" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Track Difference</div>
-        <div id="track-diff" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+      <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Front Track</div>
+          <div id="front-track_a" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Rear Track</div>
+          <div id="rear-track_a" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Track Difference</div>
+          <div id="track-diff_a" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</div><!-- end panel After -->
 
+
+<!-- ═══════════════════════════════════════
+     PANEL 2 — DIFFERENCE
+  ═══════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-header">Difference (After − Before)</div>
+
+  <div class="card">
+    <div class="card-title">Individual Wheel Toe Δ</div>
+    <div class="tires-grid">
+      <div class="tire-card">
+        <div class="tc-name">FL Toe</div>
+        <div id="diff-val-fl" class="tc-val toe-zero">—</div>
+        <div id="diff-lbl-fl" class="tc-lbl toe-zero">–</div>
+      </div>
+      <div class="tire-card">
+        <div class="tc-name">FR Toe</div>
+        <div id="diff-val-fr" class="tc-val toe-zero">—</div>
+        <div id="diff-lbl-fr" class="tc-lbl toe-zero">–</div>
+      </div>
+      <div class="tire-card">
+        <div class="tc-name">RL Toe</div>
+        <div id="diff-val-rl" class="tc-val toe-zero">—</div>
+        <div id="diff-lbl-rl" class="tc-lbl toe-zero">–</div>
+      </div>
+      <div class="tire-card">
+        <div class="tc-name">RR Toe</div>
+        <div id="diff-val-rr" class="tc-val toe-zero">—</div>
+        <div id="diff-lbl-rr" class="tc-lbl toe-zero">–</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Summary Δ</div>
+    <div class="summary-grid">
+      <div class="sum-item">
+        <div class="si-label">Front Toe Δ</div>
+        <div id="diff-total-front" class="si-val" style="color:#64748b;">—</div>
+        <div id="diff-lbl-total-front" class="tc-lbl toe-zero" style="font-size:0.72rem;">–</div>
+      </div>
+      <div class="sum-item">
+        <div class="si-label">Rear Toe Δ</div>
+        <div id="diff-total-rear" class="si-val" style="color:#64748b;">—</div>
+        <div id="diff-lbl-total-rear" class="tc-lbl toe-zero" style="font-size:0.72rem;">–</div>
+      </div>
+      <div class="sum-item full-width">
+        <div class="si-label">Thrust Angle Δ</div>
+        <div id="diff-thrust" class="si-val" style="color:#64748b;">—</div>
+        <div id="diff-lbl-thrust" class="tc-lbl toe-zero" style="font-size:0.72rem;">–</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end panel Difference -->
+
+
+  </div><!-- end panels-track -->
+</div><!-- end panels-outer -->
+
+
+<!-- Instructions -->
 <div style="margin: 0 0 10px;">
   <button onclick="var b=document.getElementById('instr-body');b.hidden=!b.hidden;this.textContent=b.hidden?'Instructions ▼':'Instructions ▲';"
     style="width:100%; padding:10px 16px; background:#fff; border:1px solid #cbd5e1; border-radius:0; font-size:0.85rem; font-weight:600; color:#1e293b; text-align:left; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.07);">
@@ -465,7 +570,8 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
       <li>Enter the wheelbase using the same unit as the string measurements. This data is needed to calculate if the strings are not parallel to the vehicle.</li>
       <li>Enter the actual wheel diameter at the rim edge where you are measuring — not the nominal wheel size. Enter one value for the front axle and one for the rear.</li>
       <li>Tire graphics are shown at <strong>100× amplification</strong> (capped at 45°) so small angles are clearly visible. <span style="color:#0891b2; font-weight:600;">Cyan</span> = toe-in, <span style="color:#a21caf; font-weight:600;">Magenta</span> = toe-out.</li>
-      <li>Entered data is saved locally on your PC or phone so if you re-visit the page the data will be restored.</li>
+      <li>Enter your measurements before alignment in the <strong>Before</strong> panel and after in the <strong>After</strong> panel. The <strong>Difference</strong> panel shows the change (After − Before). Swipe left/right on mobile to access before, after, and difference pages.</li>
+      <li>Entered data is saved locally on your device so re-visiting the page will restore your data.</li>
     </ol>
   </div>
 </div>
@@ -474,46 +580,89 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
   Based on <a href="https://robrobinette.com/DIYAlignmentCalculator.htm" style="color:#64748b; text-decoration:none;">Rob Robinette's DIY Alignment Calculator</a>
 </div>
 
+
 <!-- ═══════════════════════════════════════
      JAVASCRIPT
   ═══════════════════════════════════════ -->
 <script>
 'use strict';
 
-const INPUTS = ['A','B','C','D','E','F','G','H','I','J','K','SS'];
-const LS_KEY = 'diy_align_v1';
+/* ── Panel navigation ── */
+let currentPanel = 0;
+const track = document.getElementById('panels-track');
+const dots  = document.querySelectorAll('.nav-dot');
 
+function goTo(idx) {
+  currentPanel = idx;
+  track.style.transform = `translateX(-${idx * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+// Swipe
+let touchStartX = 0;
+const outer = document.getElementById('panels-outer');
+outer.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+outer.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 40) goTo(Math.max(0, Math.min(2, currentPanel + (dx < 0 ? 1 : -1))));
+});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(Math.min(2, currentPanel + 1));
+  if (e.key === 'ArrowLeft')  goTo(Math.max(0, currentPanel - 1));
+});
+
+/* ── Data ── */
+const INPUTS_ALL   = ['A','B','C','D','E','F','G','H','I','J','K','SS'];
+const INPUTS_AFTER = ['A','B','C','D','E','F','G','H']; // After panel shares I,J,K,SS from Before
 const DEFAULTS = { A:100, B:100, C:100, D:100, E:100, F:100, G:100, H:100, I:550, J:550, K:3000 };
+const LS_BEFORE = 'diy_align_before';
+const LS_AFTER  = 'diy_align_after';
+const LS_OLD    = 'diy_align_v1';
+
+// Stored computed results for diff panel
+const results = { b: {}, a: {} };
 
 /* ── localStorage ── */
-function loadValues() {
+function loadValues(sfx, lsKey) {
+  const inputs = sfx === 'b' ? INPUTS_ALL : INPUTS_AFTER;
   try {
-    const s = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    let s = JSON.parse(localStorage.getItem(lsKey) || 'null');
+    // Migrate old single-panel key into Before on first run
+    if (s === null && sfx === 'b') {
+      s = JSON.parse(localStorage.getItem(LS_OLD) || 'null');
+      if (s !== null) localStorage.removeItem(LS_OLD);
+    }
     if (s === null) {
-      // First visit — apply defaults (SS intentionally left blank)
       Object.entries(DEFAULTS).forEach(([id, val]) => {
-        const el = document.getElementById(id);
+        const el = document.getElementById(id + '_' + sfx);
         if (el) el.value = val;
       });
     } else {
-      INPUTS.forEach(id => {
-        const el = document.getElementById(id);
+      inputs.forEach(id => {
+        const el = document.getElementById(id + '_' + sfx);
         if (el && s[id] != null) el.value = s[id];
       });
     }
   } catch(e) {}
 }
-function saveValues() {
+
+function saveValues(sfx, lsKey) {
+  const inputs = sfx === 'b' ? INPUTS_ALL : INPUTS_AFTER;
   const d = {};
-  INPUTS.forEach(id => {
-    const el = document.getElementById(id);
+  inputs.forEach(id => {
+    const el = document.getElementById(id + '_' + sfx);
     if (el && el.value !== '') d[id] = el.value;
   });
-  localStorage.setItem(LS_KEY, JSON.stringify(d));
+  localStorage.setItem(lsKey, JSON.stringify(d));
 }
 
 /* ── Helpers ── */
-function gv(id) { const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? null : v; }
+function gv(id, sfx) {
+  const v = parseFloat(document.getElementById(id + '_' + sfx).value);
+  return isNaN(v) ? null : v;
+}
 function r2d(r) { return r * 180 / Math.PI; }
 
 /* ── Canvas roundRect polyfill ── */
@@ -528,76 +677,63 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-/* ── Draw single tire indicator ──
-   canvasId: element id
-   toeDeg  : toe in degrees (null = no data), positive = toe-in
-   side    : 'left' | 'right'  (which side of car)
-*/
+/* ── Draw tire ── */
 function drawTire(canvasId, toeDeg, side) {
   const cvs = document.getElementById(canvasId);
+  if (!cvs) return;
   const ctx = cvs.getContext('2d');
   const W = cvs.width, H = cvs.height;
   ctx.clearRect(0, 0, W, H);
 
   const cx = W / 2, cy = H / 2 + 4;
-
-  // Color
   let color;
-  if (toeDeg === null) { color = '#94a3b8'; }
-  else if (Math.abs(toeDeg) < 0.01) { color = '#64748b'; }
-  else if (toeDeg > 0) { color = '#06b6d4'; }   // toe-in cyan
-  else { color = '#d946ef'; }                     // toe-out magenta
+  if (toeDeg === null)           color = '#94a3b8';
+  else if (Math.abs(toeDeg) < 0.005) color = '#64748b';
+  else if (toeDeg > 0)           color = '#06b6d4';
+  else                           color = '#d946ef';
 
-  // Visual angle — 100x amplified, capped at ±45°
-  // Right-side wheels need negation: toe-in means front tilts toward car center (left)
-  const sign = (side === 'right') ? -1 : 1;
-  const visAng = toeDeg !== null ? Math.max(-45, Math.min(45, toeDeg * 100)) * Math.PI / 180 * sign : 0;
+  const sign = side === 'right' ? -1 : 1;
+  const visAng = toeDeg !== null
+    ? Math.max(-45, Math.min(45, toeDeg * 100)) * Math.PI / 180 * sign : 0;
 
-  // Save/rotate
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(visAng);
 
-  // Tire body
   const TW = 16, TH = 48;
-  ctx.fillStyle = color + '28';
+  ctx.fillStyle   = color + '28';
   ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
+  ctx.lineWidth   = 2;
   ctx.beginPath();
   roundRect(ctx, -TW/2, -TH/2, TW, TH, 4);
   ctx.fill();
   ctx.stroke();
 
-  // Direction arrow on tire
   if (toeDeg !== null) {
     ctx.fillStyle = color;
-    // Arrow pointing in direction of travel (upward = forward)
     const arrowY = -TH/2 - 10;
     ctx.beginPath();
     ctx.moveTo(0, arrowY);
     ctx.lineTo(-5, arrowY + 9);
-    ctx.lineTo(5,  arrowY + 9);
+    ctx.lineTo( 5, arrowY + 9);
     ctx.closePath();
     ctx.fill();
 
-    // Center line
     ctx.strokeStyle = color + '60';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3,3]);
+    ctx.lineWidth   = 1;
+    ctx.setLineDash([3, 3]);
     ctx.beginPath();
     ctx.moveTo(0, -TH/2);
     ctx.lineTo(0,  TH/2);
     ctx.stroke();
     ctx.setLineDash([]);
   }
-
   ctx.restore();
 
-  // Vertical reference line (straight ahead)
   if (toeDeg !== null && Math.abs(toeDeg) >= 0.01) {
     ctx.strokeStyle = '#cbd5e1';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([2,4]);
+    ctx.lineWidth   = 1;
+    ctx.setLineDash([2, 4]);
     ctx.beginPath();
     ctx.moveTo(cx, cy - TH/2 - 14);
     ctx.lineTo(cx, cy + TH/2 + 4);
@@ -606,35 +742,32 @@ function drawTire(canvasId, toeDeg, side) {
   }
 }
 
-/* ── Draw thrust angle mini visualization (100x amplified) ── */
-function drawThrust(angleDeg) {
-  const cvs = document.getElementById('cvs-thrust-mini');
+/* ── Draw thrust ── */
+function drawThrust(canvasId, angleDeg) {
+  const cvs = document.getElementById(canvasId);
+  if (!cvs) return;
   const ctx = cvs.getContext('2d');
   const W = cvs.width, H = cvs.height;
   ctx.clearRect(0, 0, W, H);
 
   const cx = W / 2, cy = H / 2;
   const color = angleDeg === null ? '#94a3b8'
-    : Math.abs(angleDeg) < 0.01 ? '#06b6d4'
+    : Math.abs(angleDeg) < 0.005  ? '#06b6d4'
     : '#d946ef';
 
-  // 100x amplified, capped at ±45°
   const visAng = angleDeg !== null
-    ? Math.max(-45, Math.min(45, angleDeg * 100)) * Math.PI / 180
-    : 0;
+    ? Math.max(-45, Math.min(45, angleDeg * 100)) * Math.PI / 180 : 0;
 
-  // Small car body
   ctx.strokeStyle = '#cbd5e1';
-  ctx.fillStyle = '#f1f5f9';
-  ctx.lineWidth = 1.5;
+  ctx.fillStyle   = '#f1f5f9';
+  ctx.lineWidth   = 1.5;
   ctx.beginPath();
   roundRect(ctx, cx - 10, cy - 22, 20, 44, 4);
   ctx.fill();
   ctx.stroke();
 
-  // Reference dashed line (straight ahead)
   ctx.strokeStyle = '#cbd5e1';
-  ctx.lineWidth = 1;
+  ctx.lineWidth   = 1;
   ctx.setLineDash([3, 3]);
   ctx.beginPath();
   ctx.moveTo(cx, cy + 20);
@@ -642,21 +775,18 @@ function drawThrust(angleDeg) {
   ctx.stroke();
   ctx.setLineDash([]);
 
-  // Thrust arrow (rotated by amplified angle)
-  const len = 26;
-  const startY = cy + 18;
+  const len = 26, startY = cy + 18;
   const ex = cx + Math.sin(visAng) * len;
   const ey = startY - Math.cos(visAng) * len;
 
   ctx.strokeStyle = color;
-  ctx.fillStyle = color;
-  ctx.lineWidth = 2;
+  ctx.fillStyle   = color;
+  ctx.lineWidth   = 2;
   ctx.beginPath();
   ctx.moveTo(cx, startY);
   ctx.lineTo(ex, ey);
   ctx.stroke();
 
-  // Arrowhead
   const headAng = Math.atan2(ey - startY, ex - cx);
   const hl = 7;
   ctx.beginPath();
@@ -667,166 +797,240 @@ function drawThrust(angleDeg) {
   ctx.fill();
 }
 
-/* ── Update one tire indicator in diagram ── */
-function updateCard(id, deg, side) {
-  drawTire('cvs-' + id, deg, side);
+/* ── Update one tire display ── */
+function updateCard(id, sfx, deg, side) {
+  drawTire('cvs-' + id + '_' + sfx, deg, side);
 
-  const valEl = document.getElementById('val-' + id);
-  const lblEl = document.getElementById('lbl-' + id);
+  const valEl = document.getElementById('val-' + id + '_' + sfx);
+  const lblEl = document.getElementById('lbl-' + id + '_' + sfx);
+  if (!valEl || !lblEl) return;
 
   if (deg === null) {
-    valEl.textContent = '—';
-    valEl.className = 'tc-val toe-zero';
-    lblEl.textContent = '–';
-    lblEl.className = 'tc-lbl toe-zero';
+    valEl.textContent = '—'; valEl.className = 'tc-val toe-zero';
+    lblEl.textContent = '–'; lblEl.className = 'tc-lbl toe-zero';
     return;
   }
 
   valEl.textContent = Math.abs(deg).toFixed(2) + '°';
-
-  if (Math.abs(deg) < 0.01) {
-    valEl.className = 'tc-val toe-zero';
-    lblEl.textContent = 'zero';
-    lblEl.className = 'tc-lbl toe-zero';
+  if (Math.abs(deg) < 0.005) {
+    valEl.className = 'tc-val toe-zero'; lblEl.textContent = 'zero'; lblEl.className = 'tc-lbl toe-zero';
   } else if (deg > 0) {
-    valEl.className = 'tc-val toe-in';
-    lblEl.textContent = 'in';
-    lblEl.className = 'tc-lbl toe-in';
+    valEl.className = 'tc-val toe-in';   lblEl.textContent = 'in';   lblEl.className = 'tc-lbl toe-in';
   } else {
-    valEl.className = 'tc-val toe-out';
-    lblEl.textContent = 'out';
-    lblEl.className = 'tc-lbl toe-out';
+    valEl.className = 'tc-val toe-out';  lblEl.textContent = 'out';  lblEl.className = 'tc-lbl toe-out';
   }
 }
 
-/* ── Main calculation ── */
-function calculate() {
-  const A = gv('A'), B = gv('B');
-  const C = gv('C'), D = gv('D');
-  const E = gv('E'), F = gv('F');
-  const G = gv('G'), H = gv('H');
-  const I = gv('I'), J = gv('J');
-  const K = gv('K');
+/* ── Difference panel ── */
+function calculateDiff() {
+  const rb = results.b, ra = results.a;
 
-  // Hub centers
+  function diffWheel(id, key) {
+    const a = ra[key], b = rb[key];
+    const valEl = document.getElementById('diff-val-' + id);
+    const lblEl = document.getElementById('diff-lbl-' + id);
+    if (!valEl) return;
+    if (a == null || b == null) {
+      valEl.textContent = '—'; valEl.className = 'tc-val toe-zero';
+      if (lblEl) { lblEl.textContent = '–'; lblEl.className = 'tc-lbl toe-zero'; }
+      return;
+    }
+    const d = a - b;
+    valEl.textContent = (d >= 0 ? '+' : '') + d.toFixed(2) + '°';
+    if (Math.abs(d) < 0.005) {
+      valEl.className = 'tc-val toe-zero';
+      if (lblEl) { lblEl.textContent = 'no change'; lblEl.className = 'tc-lbl toe-zero'; }
+    } else if (d > 0) {
+      valEl.className = 'tc-val toe-in';
+      if (lblEl) { lblEl.textContent = 'more in';  lblEl.className = 'tc-lbl toe-in'; }
+    } else {
+      valEl.className = 'tc-val toe-out';
+      if (lblEl) { lblEl.textContent = 'more out'; lblEl.className = 'tc-lbl toe-out'; }
+    }
+  }
+
+  diffWheel('fl', 'fl'); diffWheel('fr', 'fr');
+  diffWheel('rl', 'rl'); diffWheel('rr', 'rr');
+
+  function diffSummary(elId, lblId, key, toeMode) {
+    const a = ra[key], b = rb[key];
+    const el  = document.getElementById(elId);
+    const lbl = document.getElementById(lblId);
+    if (!el) return;
+    if (a == null || b == null) {
+      el.textContent = '—'; el.style.color = '#64748b';
+      if (lbl) { lbl.textContent = '–'; lbl.className = 'tc-lbl toe-zero'; }
+      return;
+    }
+    const d = a - b;
+    el.textContent = (d >= 0 ? '+' : '') + d.toFixed(2) + '°';
+    if (Math.abs(d) < 0.005) {
+      el.style.color = '#94a3b8';
+      if (lbl) { lbl.textContent = 'no change'; lbl.className = 'tc-lbl toe-zero'; }
+    } else if (d > 0) {
+      el.style.color = '#0891b2';
+      if (lbl) { lbl.textContent = toeMode ? 'more in' : 'right'; lbl.className = 'tc-lbl toe-in'; }
+    } else {
+      el.style.color = '#a21caf';
+      if (lbl) { lbl.textContent = toeMode ? 'more out' : 'left'; lbl.className = 'tc-lbl toe-out'; }
+    }
+  }
+
+  diffSummary('diff-total-front', 'diff-lbl-total-front', 'totalFront', true);
+  diffSummary('diff-total-rear',  'diff-lbl-total-rear',  'totalRear',  true);
+  diffSummary('diff-thrust',      'diff-lbl-thrust',      'thrust',     false);
+}
+
+/* ── Sync After panel's read-only param displays from Before ── */
+function syncAfterParams() {
+  ['I','J','K'].forEach(id => {
+    const el = document.getElementById(id + '_b');
+    const dst = document.getElementById('show-' + id + '_a');
+    if (dst) dst.textContent = el && el.value !== '' ? el.value : '—';
+  });
+  const ssSrc = document.getElementById('SS_b');
+  const ssDst = document.getElementById('show-SS_a');
+  if (ssDst) ssDst.textContent = ssSrc && ssSrc.value !== '' ? ssSrc.value : '---';
+}
+
+/* ── Main calculation ── */
+function calculate(sfx) {
+  const A = gv('A',sfx), B = gv('B',sfx);
+  const C = gv('C',sfx), D = gv('D',sfx);
+  const E = gv('E',sfx), F = gv('F',sfx);
+  const G = gv('G',sfx), H = gv('H',sfx);
+  // After panel shares wheel diameters, wheelbase, and string width from Before
+  const psfx = sfx === 'a' ? 'b' : sfx;
+  const I = gv('I',psfx), J = gv('J',psfx);
+  const K = gv('K',psfx);
+
   const fl_hub = (A != null && B != null) ? (A + B) / 2 : null;
   const fr_hub = (E != null && F != null) ? (E + F) / 2 : null;
   const rl_hub = (C != null && D != null) ? (C + D) / 2 : null;
   const rr_hub = (G != null && H != null) ? (G + H) / 2 : null;
 
-  // Thrust angle (radians)
   let r = null;
   if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && K) {
     const sin_arg = (fl_hub - fr_hub - rl_hub + rr_hub) / (2 * K);
     if (Math.abs(sin_arg) <= 1) r = Math.asin(sin_arg);
   }
 
-  // Individual toe (radians), corrected for thrust angle
   let fl_toe = null, fr_toe = null, rl_toe = null, rr_toe = null;
-
   if (A != null && B != null && I) {
-    const sa = (A - B) / I;
-    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fl_toe = r != null ? base - r : base; }
+    const sa = (A - B) / I; if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fl_toe = r != null ? base - r : base; }
   }
   if (E != null && F != null && I) {
-    const sa = (E - F) / I;
-    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fr_toe = r != null ? base + r : base; }
+    const sa = (E - F) / I; if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fr_toe = r != null ? base + r : base; }
   }
   if (C != null && D != null && J) {
-    const sa = (C - D) / J;
-    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rl_toe = r != null ? base - r : base; }
+    const sa = (C - D) / J; if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rl_toe = r != null ? base - r : base; }
   }
   if (G != null && H != null && J) {
-    const sa = (G - H) / J;
-    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rr_toe = r != null ? base + r : base; }
+    const sa = (G - H) / J; if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rr_toe = r != null ? base + r : base; }
   }
 
-  // To degrees
-  const fl_d = fl_toe != null ? r2d(fl_toe) : null;
-  const fr_d = fr_toe != null ? r2d(fr_toe) : null;
-  const rl_d = rl_toe != null ? r2d(rl_toe) : null;
-  const rr_d = rr_toe != null ? r2d(rr_toe) : null;
-  const thrust_d = r != null ? r2d(r) : null;
+  const fl_d     = fl_toe  != null ? r2d(fl_toe)  : null;
+  const fr_d     = fr_toe  != null ? r2d(fr_toe)  : null;
+  const rl_d     = rl_toe  != null ? r2d(rl_toe)  : null;
+  const rr_d     = rr_toe  != null ? r2d(rr_toe)  : null;
+  const thrust_d = r       != null ? r2d(r)        : null;
 
-  // Track difference
   let track_diff = null;
   if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && r != null) {
     track_diff = (fl_hub + fr_hub - rl_hub - rr_hub) / Math.cos(r);
   }
 
-  // Update wheel cards
-  updateCard('fl', fl_d, 'left');
-  updateCard('fr', fr_d, 'right');
-  updateCard('rl', rl_d, 'left');
-  updateCard('rr', rr_d, 'right');
+  updateCard('fl', sfx, fl_d, 'left');
+  updateCard('fr', sfx, fr_d, 'right');
+  updateCard('rl', sfx, rl_d, 'left');
+  updateCard('rr', sfx, rr_d, 'right');
 
-  // Total axle toe
   const tf = (fl_d != null && fr_d != null) ? fl_d + fr_d : null;
   const tr = (rl_d != null && rr_d != null) ? rl_d + rr_d : null;
 
   function setVal(id, val, suffix, colorFn) {
-    const el = document.getElementById(id);
+    const el = document.getElementById(id + '_' + sfx);
     if (!el) return;
     if (val == null) { el.textContent = '—'; el.style.color = ''; return; }
     el.textContent = val.toFixed(2) + (suffix !== undefined ? suffix : '°');
     if (colorFn) el.style.color = colorFn(val);
   }
-
-  setVal('total-front', tf,       '°', v => Math.abs(v) < 0.01 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
-  setVal('total-rear',  tr,       '°', v => Math.abs(v) < 0.01 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
-  setVal('thrust-val',  thrust_d, '°', v => Math.abs(v) < 0.01 ? '#0891b2' : '#a21caf');
-
-  // Toe direction labels
   function setToeLabel(id, val) {
-    const el = document.getElementById(id);
+    const el = document.getElementById(id + '_' + sfx);
     if (!el) return;
-    if (val == null)          { el.textContent = '–'; el.className = 'tc-lbl toe-zero'; }
-    else if (Math.abs(val) < 0.01) { el.textContent = 'zero'; el.className = 'tc-lbl toe-zero'; }
-    else if (val > 0)         { el.textContent = 'in';  el.className = 'tc-lbl toe-in'; }
-    else                      { el.textContent = 'out'; el.className = 'tc-lbl toe-out'; }
+    if (val == null)               { el.textContent = '–';       el.className = 'tc-lbl toe-zero'; }
+    else if (Math.abs(val) < 0.005) { el.textContent = 'zero';   el.className = 'tc-lbl toe-zero'; }
+    else if (val > 0)              { el.textContent = 'in';     el.className = 'tc-lbl toe-in'; }
+    else                           { el.textContent = 'out';    el.className = 'tc-lbl toe-out'; }
   }
+
+  setVal('total-front', tf,       '°', v => Math.abs(v) < 0.005 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
+  setVal('total-rear',  tr,       '°', v => Math.abs(v) < 0.005 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
+  setVal('thrust-val',  thrust_d, '°', v => Math.abs(v) < 0.005 ? '#0891b2' : '#a21caf');
   setToeLabel('lbl-total-front', tf);
   setToeLabel('lbl-total-rear',  tr);
 
-  // Thrust direction label (negative = left)
-  const thrustLbl = document.getElementById('lbl-thrust');
+  const thrustLbl = document.getElementById('lbl-thrust_' + sfx);
   if (thrustLbl) {
-    if (thrust_d == null)              { thrustLbl.textContent = '–';     thrustLbl.className = 'tc-lbl toe-zero'; }
-    else if (Math.abs(thrust_d) < 0.01){ thrustLbl.textContent = 'straight'; thrustLbl.className = 'tc-lbl toe-zero'; }
-    else if (thrust_d < 0)             { thrustLbl.textContent = 'left';  thrustLbl.className = 'tc-lbl toe-out'; }
-    else                               { thrustLbl.textContent = 'right'; thrustLbl.className = 'tc-lbl toe-in'; }
+    if (thrust_d == null)               { thrustLbl.textContent = '–';        thrustLbl.className = 'tc-lbl toe-zero'; }
+    else if (Math.abs(thrust_d) < 0.005) { thrustLbl.textContent = 'straight'; thrustLbl.className = 'tc-lbl toe-zero'; }
+    else if (thrust_d < 0)              { thrustLbl.textContent = 'left';     thrustLbl.className = 'tc-lbl toe-out'; }
+    else                                { thrustLbl.textContent = 'right';    thrustLbl.className = 'tc-lbl toe-in'; }
   }
 
-  drawThrust(thrust_d);
+  drawThrust('cvs-thrust-mini_' + sfx, thrust_d);
 
-  // Track width (only if string spacing has been entered)
-  const SS = gv('SS');
-  const ftEl = document.getElementById('front-track');
-  const rtEl = document.getElementById('rear-track');
-  const tdEl = document.getElementById('track-diff');
+  // Track widths — After uses Before's string width
+  const SS = gv('SS', psfx);
+  const ftEl = document.getElementById('front-track_' + sfx);
+  const rtEl = document.getElementById('rear-track_' + sfx);
+  const tdEl = document.getElementById('track-diff_'  + sfx);
+
+  let frontTrack = null, rearTrack = null;
   if (SS !== null) {
-    if (fl_hub != null && fr_hub != null) {
-      ftEl.textContent = (SS - fl_hub - fr_hub).toFixed(1);
-    } else { ftEl.textContent = '—'; }
-    if (rl_hub != null && rr_hub != null) {
-      rtEl.textContent = (SS - rl_hub - rr_hub).toFixed(1);
-    } else { rtEl.textContent = '—'; }
+    if (fl_hub != null && fr_hub != null) { frontTrack = SS - fl_hub - fr_hub; if (ftEl) ftEl.textContent = frontTrack.toFixed(1); }
+    else if (ftEl) ftEl.textContent = '—';
+    if (rl_hub != null && rr_hub != null) { rearTrack  = SS - rl_hub - rr_hub; if (rtEl) rtEl.textContent = rearTrack.toFixed(1); }
+    else if (rtEl) rtEl.textContent = '—';
   } else {
-    ftEl.textContent = '---';
-    rtEl.textContent = '---';
+    if (ftEl) ftEl.textContent = '---';
+    if (rtEl) rtEl.textContent = '---';
   }
   if (tdEl) tdEl.textContent = track_diff != null ? track_diff.toFixed(1) : '—';
+
+  // Store for diff panel
+  results[sfx] = { fl: fl_d, fr: fr_d, rl: rl_d, rr: rr_d,
+    thrust: thrust_d, totalFront: tf, totalRear: tr,
+    frontTrack, rearTrack, trackDiff: track_diff };
+
+  calculateDiff();
 }
 
 /* ── Wire up inputs ── */
-INPUTS.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('input', () => { saveValues(); calculate(); });
+['b', 'a'].forEach(sfx => {
+  const lsKey = sfx === 'b' ? LS_BEFORE : LS_AFTER;
+  const inputs = sfx === 'b' ? INPUTS_ALL : INPUTS_AFTER;
+  inputs.forEach(id => {
+    const el = document.getElementById(id + '_' + sfx);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      saveValues(sfx, lsKey);
+      calculate(sfx);
+      // When Before's shared params change, sync displays and recalculate After
+      if (sfx === 'b' && ['I','J','K','SS'].includes(id)) {
+        syncAfterParams();
+        calculate('a');
+      }
+    });
+  });
 });
 
 /* ── Init ── */
-loadValues();
-calculate();
+loadValues('b', LS_BEFORE);
+loadValues('a', LS_AFTER);
+syncAfterParams();
+calculate('b');
+calculate('a');
 </script>
 </body>
 </html>
