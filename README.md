@@ -1,4 +1,4 @@
-A simple web page that helps you align your car/vehicle/auto/automobile with two strings and a ruler. 
+A simple, mobile friendly web page that helps you align your car/vehicle/auto/automobile with two strings and a ruler. 
 Currently hosted at https://alignment.iegs.us if you want to use it.
 
 1) Use the same unit of measurement for all entries — the calculator outputs results in degrees regardless of unit.
