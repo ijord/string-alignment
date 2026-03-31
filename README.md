@@ -1,4 +1,5 @@
 A simple, mobile friendly web page that helps you align your car/vehicle/auto/automobile with two strings and a ruler. 
+
 Currently hosted at https://alignment.iegs.us if you want to use it.
 
 1) Use the same unit of measurement for all entries — the calculator outputs results in degrees regardless of unit.
@@ -8,3 +9,5 @@ Currently hosted at https://alignment.iegs.us if you want to use it.
 5) Enter the actual wheel diameter at the rim edge where you are measuring — not the nominal wheel size. Enter one value for the front axle and one for the rear.
 6) Tire graphics are shown at 100× amplification (capped at 45°) so small angles are clearly visible. Cyan = toe-in, Magenta = toe-out.
 7) Entered data is saved locally on your PC or phone so if you re-visit the page the data will be restored.
+
+<img width="864" height="1939" alt="Screenshot" src="https://github.com/user-attachments/assets/316c2f91-c053-4873-9f24-62cab26b318a" />
