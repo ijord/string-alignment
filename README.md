@@ -8,6 +8,8 @@ Currently hosted at https://alignment.iegs.us if you want to use it.
 4) Enter the wheelbase using the same unit as the string measurements. This data is needed to calculate if the strings are not parallel to the vehicle.
 5) Enter the actual wheel diameter at the rim edge where you are measuring — not the nominal wheel size. Enter one value for the front axle and one for the rear.
 6) Tire graphics are shown at 100× amplification (capped at 45°) so small angles are clearly visible. Cyan = toe-in, Magenta = toe-out.
-7) Entered data is saved locally on your PC or phone so if you re-visit the page the data will be restored.
+7) Enter your measurements before alignment in the Before panel and after in the After panel. The Difference panel shows the change (After − Before). Swipe left/right on mobile to access before, after, and difference pages.
+8) Entered data is saved locally on your PC or phone so if you re-visit the page the data will be restored.
 
-<img width="864" height="1939" alt="Screenshot" src="https://github.com/user-attachments/assets/316c2f91-c053-4873-9f24-62cab26b318a" />
+<img width="864" height="1939" alt="Screenshot_20260331-143524" src="https://github.com/user-attachments/assets/c3a22101-483c-4d75-b6d1-c2060d8e99e1" />
+
