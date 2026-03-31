@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>DIY String Alignment Calculator</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f4f8;
+  color: #1e293b;
+  min-height: 100vh;
+  padding-bottom: 32px;
+}
+
+h1 {
+  text-align: center;
+  padding: 18px 16px 12px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  letter-spacing: 0.5px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 0;
+  margin: 10px 0;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.card-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #64748b;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* ── Number inputs ── */
+input[type=number] {
+  width: 72px;
+  padding: 7px 4px;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  color: #0f172a;
+  font-size: 0.95rem;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  touch-action: manipulation;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type=number]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+.letter {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #b45309;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.meas-label {
+  font-size: 0.62rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+.input-cell { display: flex; flex-direction: column; align-items: center; }
+
+/* ── Diagram container ── */
+#diagram-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+#car-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Measurement input groups floated into the diagram space */
+.diag-inputs {
+  display: grid;
+  /* cols: left-inputs | car-body | right-inputs */
+  grid-template-columns: 90px 1fr 90px;
+  grid-template-rows: auto auto auto auto;
+  gap: 4px 8px;
+  max-width: 480px;
+  margin: 0 auto;
+  align-items: center;
+}
+/* String labels */
+.str-label {
+  font-size: 0.65rem;
+  color: #fbbf24;
+  text-align: center;
+  padding: 2px 0;
+  grid-column: 1 / -1;
+  opacity: 0.8;
+}
+
+/* Car illustration (middle column, spans rows) */
+.car-col {
+  grid-column: 2;
+  grid-row: 1 / 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+.car-body {
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  width: 110px;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.axle-row {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+}
+.wheel-box {
+  width: 22px;
+  height: 46px;
+  border-radius: 4px;
+  border: 2px solid #94a3b8;
+  background: #cbd5e1;
+}
+.axle-label {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 4px;
+}
+.front-label, .rear-label {
+  font-size: 0.62rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+/* Left / Right input columns */
+.left-col  { grid-column: 1; text-align: right; }
+.right-col { grid-column: 3; text-align: left; }
+
+.side-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px;
+}
+.side-group.right-side {
+  align-items: flex-start;
+}
+.side-group.left-side {
+  align-items: flex-end;
+}
+
+/* String lines flanking the car */
+.diagram-outer {
+  display: flex;
+  align-items: stretch;
+  max-width: 480px;
+  margin: 0 auto;
+  gap: 0;
+}
+.string-line {
+  width: 3px;
+  background: linear-gradient(to bottom, #fbbf24, #f59e0b);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin: 4px 0;
+  opacity: 0.7;
+}
+.diagram-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Wheel input pairs (front/back measurements per wheel) */
+.wheel-inputs {
+  display: flex;
+  gap: 10px;
+  padding: 6px 8px;
+  justify-content: space-between;
+}
+.wheel-pair { display: flex; gap: 8px; }
+
+/* ── Results ── */
+.tires-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.tire-card {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1.5px solid #e2e8f0;
+  transition: border-color 0.3s;
+}
+.tire-card .tc-name { font-size: 0.72rem; color: #64748b; margin-bottom: 8px; }
+.tire-card .tc-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 6px;
+  transition: color 0.3s;
+}
+.tire-card .tc-lbl { font-size: 0.72rem; margin-top: 2px; transition: color 0.3s; }
+.toe-in  { color: #0891b2 !important; }
+.toe-out { color: #a21caf !important; }
+.toe-zero { color: #94a3b8 !important; }
+.border-in  { border-color: #a5f3fc !important; }
+.border-out { border-color: #f0abfc !important; }
+.border-zero { border-color: #e2e8f0 !important; }
+
+/* ── Summary ── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sum-item {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+.sum-item .si-label { font-size: 0.72rem; color: #64748b; }
+.sum-item .si-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-top: 4px;
+}
+.sum-item.full-width { grid-column: 1 / -1; }
+
+/* ── Params row ── */
+.params-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.param-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.param-item label { font-size: 0.72rem; color: #64748b; }
+
+/* ── Canvas tire indicators ── */
+canvas.tire-indicator { display: block; margin: 0 auto; }
+
+/* ── Thrust canvas ── */
+#thrust-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+#thrust-wrap .si-label { font-size: 0.72rem; color: #64748b; }
+</style>
+</head>
+<body>
+
+<h1>DIY String Alignment Calculator</h1>
+<p style="text-align:center; color:#64748b; margin-top:4px; margin-bottom:0;">Align your car at home with two strings and a ruler</p>
+
+
+<!-- ═══════════════════════════════════════
+     MAIN CARD — params + diagram
+  ═══════════════════════════════════════ -->
+<div class="card">
+  <div class="params-row" style="margin-bottom:14px;">
+    <div class="param-item">
+      <input type="number" id="I" step="0.01" placeholder="0.000">
+      <label>Front wheel Ø</label>
+    </div>
+    <div class="param-item">
+      <input type="number" id="J" step="0.01" placeholder="0.000">
+      <label>Rear wheel Ø</label>
+    </div>
+    <div class="param-item">
+      <input type="number" id="K" step="0.01" placeholder="0.000">
+      <label>Wheelbase</label>
+    </div>
+  </div>
+
+  <!-- Layout: inputs+car in one flex, strings now live inside the input columns -->
+  <div>
+
+    <!-- CENTER: 5-col layout — inputs | left tires | stats | right tires | inputs -->
+    <div style="display:flex; flex-direction:column;">
+
+      <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▲ FRONT</div>
+
+      <div style="display:flex; align-items:stretch; gap:4px; justify-content:center;">
+
+        <!-- Col 1: Left inputs + string — A/B top, C/D bottom; string on right (inner) side -->
+        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
+          <!-- Inputs -->
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:0;">
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="A" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="B" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="C" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="D" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+            </div>
+          </div>
+          <!-- String bar (inner side, between inputs and tires) -->
+          <div style="display:flex; flex-direction:column; align-items:center; margin-left:4px;">
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          </div>
+        </div>
+
+        <!-- Col 2: Left tires — FL top, RL bottom -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+          <!-- Front: canvas then numbers tight below -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <canvas class="tire-indicator" id="cvs-fl" width="72" height="100"></canvas>
+            <div id="val-fl" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fl" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <!-- Rear: canvas+numbers as a group pushed to bottom -->
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
+            <canvas class="tire-indicator" id="cvs-rl" width="72" height="100"></canvas>
+            <div id="val-rl" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rl" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 3: Center stats -->
+        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px;">
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Front Toe</div>
+            <div id="total-front" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-front" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Thrust</div>
+            <canvas id="cvs-thrust-mini" width="52" height="66" style="display:block; margin:4px auto 2px;"></canvas>
+            <div id="thrust-val" class="si-val" style="font-size:1rem;">—</div>
+            <div id="lbl-thrust" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Rear Toe</div>
+            <div id="total-rear" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
+            <div id="lbl-total-rear" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 4: Right tires — FR top, RR bottom -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+          <!-- Front: canvas then numbers tight below -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <canvas class="tire-indicator" id="cvs-fr" width="72" height="100"></canvas>
+            <div id="val-fr" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-fr" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+          <!-- Rear: canvas+numbers as a group pushed to bottom -->
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end;">
+            <canvas class="tire-indicator" id="cvs-rr" width="72" height="100"></canvas>
+            <div id="val-rr" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
+            <div id="lbl-rr" class="tc-lbl toe-zero" style="font-size:0.62rem;">–</div>
+          </div>
+        </div>
+
+        <!-- Col 5: Right string + inputs — E/F top, G/H bottom; string on left (inner) side -->
+        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
+          <!-- String bar (inner side, between tires and inputs) -->
+          <div style="display:flex; flex-direction:column; align-items:center; margin-right:4px;">
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
+            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          </div>
+          <!-- Inputs -->
+          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:0;">
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="E" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="F" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+              <div class="input-cell"><input type="number" id="G" step="0.01" placeholder="0.000"><div class="meas-label">front</div></div>
+              <div class="input-cell"><input type="number" id="H" step="0.01" placeholder="0.000"><div class="meas-label">rear</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end 5-col flex -->
+
+      <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▼ REAR</div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════
+     TRACK WIDTH CARD
+  ═══════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">Optional</div>
+  <div style="display:flex; align-items:flex-end; justify-content:center; gap:24px; flex-wrap:wrap;">
+    <div class="param-item">
+      <input type="number" id="SS" step="0.01" placeholder="---">
+      <label>String Width</label>
+    </div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+      <div style="text-align:center;">
+        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Front Track</div>
+        <div id="front-track" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Rear Track</div>
+        <div id="rear-track" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.72rem; color:#64748b; margin-bottom:4px;">Track Difference</div>
+        <div id="track-diff" style="font-size:1.15rem; font-weight:700; color:#1d4ed8;">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin: 0 0 10px;">
+  <button onclick="var b=document.getElementById('instr-body');b.hidden=!b.hidden;this.textContent=b.hidden?'Instructions ▼':'Instructions ▲';"
+    style="width:100%; padding:10px 16px; background:#fff; border:1px solid #cbd5e1; border-radius:0; font-size:0.85rem; font-weight:600; color:#1e293b; text-align:left; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.07);">
+    Instructions ▼
+  </button>
+  <div id="instr-body" hidden style="background:#fff; border:1px solid #cbd5e1; border-top:none; border-radius:0; padding:14px 16px; font-size:0.82rem; color:#334155; line-height:1.6;">
+    <ol style="padding-left:1.2em; display:flex; flex-direction:column; gap:8px;">
+      <li>Use the same unit of measurement for all entries — the calculator outputs results in degrees regardless of unit.</li>
+      <li>The two orange <strong>STRING</strong> bars represent the measurement strings running alongside the car. <strong>The strings must be parallel to each other, but do not need to be parallel to the vehicle.</strong></li>
+      <li>All wheel-to-string measurements are made <strong>perpendicular to the string</strong>. Measure from the front and rear edge of each wheel rim to the adjacent string.</li>
+      <li>Enter the wheelbase using the same unit as the string measurements. This data is needed to calculate if the strings are not parallel to the vehicle.</li>
+      <li>Enter the actual wheel diameter at the rim edge where you are measuring — not the nominal wheel size. Enter one value for the front axle and one for the rear.</li>
+      <li>Tire graphics are shown at <strong>100× amplification</strong> (capped at 45°) so small angles are clearly visible. <span style="color:#0891b2; font-weight:600;">Cyan</span> = toe-in, <span style="color:#a21caf; font-weight:600;">Magenta</span> = toe-out.</li>
+      <li>Entered data is saved locally on your PC or phone so if you re-visit the page the data will be restored.</li>
+    </ol>
+  </div>
+</div>
+
+<div style="text-align:center; font-size:0.7rem; color:#94a3b8; padding: 8px 0 4px;">
+  Based on <a href="https://robrobinette.com/DIYAlignmentCalculator.htm" style="color:#64748b; text-decoration:none;">Rob Robinette's DIY Alignment Calculator</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════ -->
+<script>
+'use strict';
+
+const INPUTS = ['A','B','C','D','E','F','G','H','I','J','K','SS'];
+const LS_KEY = 'diy_align_v1';
+
+const DEFAULTS = { A:100, B:100, C:100, D:100, E:100, F:100, G:100, H:100, I:550, J:550, K:3000 };
+
+/* ── localStorage ── */
+function loadValues() {
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    if (s === null) {
+      // First visit — apply defaults (SS intentionally left blank)
+      Object.entries(DEFAULTS).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      });
+    } else {
+      INPUTS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && s[id] != null) el.value = s[id];
+      });
+    }
+  } catch(e) {}
+}
+function saveValues() {
+  const d = {};
+  INPUTS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value !== '') d[id] = el.value;
+  });
+  localStorage.setItem(LS_KEY, JSON.stringify(d));
+}
+
+/* ── Helpers ── */
+function gv(id) { const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? null : v; }
+function r2d(r) { return r * 180 / Math.PI; }
+
+/* ── Canvas roundRect polyfill ── */
+function roundRect(ctx, x, y, w, h, r) {
+  if (ctx.roundRect) { ctx.roundRect(x, y, w, h, r); return; }
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y,   x+w,   y+r);
+  ctx.lineTo(x+w,   y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r,   y+h); ctx.quadraticCurveTo(x,   y+h, x,     y+h-r);
+  ctx.lineTo(x,     y+r); ctx.quadraticCurveTo(x,   y,   x+r,   y);
+  ctx.closePath();
+}
+
+/* ── Draw single tire indicator ──
+   canvasId: element id
+   toeDeg  : toe in degrees (null = no data), positive = toe-in
+   side    : 'left' | 'right'  (which side of car)
+*/
+function drawTire(canvasId, toeDeg, side) {
+  const cvs = document.getElementById(canvasId);
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H / 2 + 4;
+
+  // Color
+  let color;
+  if (toeDeg === null) { color = '#94a3b8'; }
+  else if (Math.abs(toeDeg) < 0.01) { color = '#64748b'; }
+  else if (toeDeg > 0) { color = '#06b6d4'; }   // toe-in cyan
+  else { color = '#d946ef'; }                     // toe-out magenta
+
+  // Visual angle — 100x amplified, capped at ±45°
+  // Right-side wheels need negation: toe-in means front tilts toward car center (left)
+  const sign = (side === 'right') ? -1 : 1;
+  const visAng = toeDeg !== null ? Math.max(-45, Math.min(45, toeDeg * 100)) * Math.PI / 180 * sign : 0;
+
+  // Save/rotate
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(visAng);
+
+  // Tire body
+  const TW = 16, TH = 48;
+  ctx.fillStyle = color + '28';
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  roundRect(ctx, -TW/2, -TH/2, TW, TH, 4);
+  ctx.fill();
+  ctx.stroke();
+
+  // Direction arrow on tire
+  if (toeDeg !== null) {
+    ctx.fillStyle = color;
+    // Arrow pointing in direction of travel (upward = forward)
+    const arrowY = -TH/2 - 10;
+    ctx.beginPath();
+    ctx.moveTo(0, arrowY);
+    ctx.lineTo(-5, arrowY + 9);
+    ctx.lineTo(5,  arrowY + 9);
+    ctx.closePath();
+    ctx.fill();
+
+    // Center line
+    ctx.strokeStyle = color + '60';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath();
+    ctx.moveTo(0, -TH/2);
+    ctx.lineTo(0,  TH/2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  ctx.restore();
+
+  // Vertical reference line (straight ahead)
+  if (toeDeg !== null && Math.abs(toeDeg) >= 0.01) {
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([2,4]);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - TH/2 - 14);
+    ctx.lineTo(cx, cy + TH/2 + 4);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+
+/* ── Draw thrust angle mini visualization (100x amplified) ── */
+function drawThrust(angleDeg) {
+  const cvs = document.getElementById('cvs-thrust-mini');
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H / 2;
+  const color = angleDeg === null ? '#94a3b8'
+    : Math.abs(angleDeg) < 0.01 ? '#06b6d4'
+    : '#d946ef';
+
+  // 100x amplified, capped at ±45°
+  const visAng = angleDeg !== null
+    ? Math.max(-45, Math.min(45, angleDeg * 100)) * Math.PI / 180
+    : 0;
+
+  // Small car body
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.fillStyle = '#f1f5f9';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  roundRect(ctx, cx - 10, cy - 22, 20, 44, 4);
+  ctx.fill();
+  ctx.stroke();
+
+  // Reference dashed line (straight ahead)
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(cx, cy + 20);
+  ctx.lineTo(cx, cy - 28);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Thrust arrow (rotated by amplified angle)
+  const len = 26;
+  const startY = cy + 18;
+  const ex = cx + Math.sin(visAng) * len;
+  const ey = startY - Math.cos(visAng) * len;
+
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, startY);
+  ctx.lineTo(ex, ey);
+  ctx.stroke();
+
+  // Arrowhead
+  const headAng = Math.atan2(ey - startY, ex - cx);
+  const hl = 7;
+  ctx.beginPath();
+  ctx.moveTo(ex, ey);
+  ctx.lineTo(ex - hl * Math.cos(headAng - 0.4), ey - hl * Math.sin(headAng - 0.4));
+  ctx.lineTo(ex - hl * Math.cos(headAng + 0.4), ey - hl * Math.sin(headAng + 0.4));
+  ctx.closePath();
+  ctx.fill();
+}
+
+/* ── Update one tire indicator in diagram ── */
+function updateCard(id, deg, side) {
+  drawTire('cvs-' + id, deg, side);
+
+  const valEl = document.getElementById('val-' + id);
+  const lblEl = document.getElementById('lbl-' + id);
+
+  if (deg === null) {
+    valEl.textContent = '—';
+    valEl.className = 'tc-val toe-zero';
+    lblEl.textContent = '–';
+    lblEl.className = 'tc-lbl toe-zero';
+    return;
+  }
+
+  valEl.textContent = Math.abs(deg).toFixed(2) + '°';
+
+  if (Math.abs(deg) < 0.01) {
+    valEl.className = 'tc-val toe-zero';
+    lblEl.textContent = 'zero';
+    lblEl.className = 'tc-lbl toe-zero';
+  } else if (deg > 0) {
+    valEl.className = 'tc-val toe-in';
+    lblEl.textContent = 'in';
+    lblEl.className = 'tc-lbl toe-in';
+  } else {
+    valEl.className = 'tc-val toe-out';
+    lblEl.textContent = 'out';
+    lblEl.className = 'tc-lbl toe-out';
+  }
+}
+
+/* ── Main calculation ── */
+function calculate() {
+  const A = gv('A'), B = gv('B');
+  const C = gv('C'), D = gv('D');
+  const E = gv('E'), F = gv('F');
+  const G = gv('G'), H = gv('H');
+  const I = gv('I'), J = gv('J');
+  const K = gv('K');
+
+  // Hub centers
+  const fl_hub = (A != null && B != null) ? (A + B) / 2 : null;
+  const fr_hub = (E != null && F != null) ? (E + F) / 2 : null;
+  const rl_hub = (C != null && D != null) ? (C + D) / 2 : null;
+  const rr_hub = (G != null && H != null) ? (G + H) / 2 : null;
+
+  // Thrust angle (radians)
+  let r = null;
+  if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && K) {
+    const sin_arg = (fl_hub - fr_hub - rl_hub + rr_hub) / (2 * K);
+    if (Math.abs(sin_arg) <= 1) r = Math.asin(sin_arg);
+  }
+
+  // Individual toe (radians), corrected for thrust angle
+  let fl_toe = null, fr_toe = null, rl_toe = null, rr_toe = null;
+
+  if (A != null && B != null && I) {
+    const sa = (A - B) / I;
+    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fl_toe = r != null ? base - r : base; }
+  }
+  if (E != null && F != null && I) {
+    const sa = (E - F) / I;
+    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); fr_toe = r != null ? base + r : base; }
+  }
+  if (C != null && D != null && J) {
+    const sa = (C - D) / J;
+    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rl_toe = r != null ? base - r : base; }
+  }
+  if (G != null && H != null && J) {
+    const sa = (G - H) / J;
+    if (Math.abs(sa) <= 1) { const base = Math.asin(sa); rr_toe = r != null ? base + r : base; }
+  }
+
+  // To degrees
+  const fl_d = fl_toe != null ? r2d(fl_toe) : null;
+  const fr_d = fr_toe != null ? r2d(fr_toe) : null;
+  const rl_d = rl_toe != null ? r2d(rl_toe) : null;
+  const rr_d = rr_toe != null ? r2d(rr_toe) : null;
+  const thrust_d = r != null ? r2d(r) : null;
+
+  // Track difference
+  let track_diff = null;
+  if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && r != null) {
+    track_diff = (fl_hub + fr_hub - rl_hub - rr_hub) / Math.cos(r);
+  }
+
+  // Update wheel cards
+  updateCard('fl', fl_d, 'left');
+  updateCard('fr', fr_d, 'right');
+  updateCard('rl', rl_d, 'left');
+  updateCard('rr', rr_d, 'right');
+
+  // Total axle toe
+  const tf = (fl_d != null && fr_d != null) ? fl_d + fr_d : null;
+  const tr = (rl_d != null && rr_d != null) ? rl_d + rr_d : null;
+
+  function setVal(id, val, suffix, colorFn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (val == null) { el.textContent = '—'; el.style.color = ''; return; }
+    el.textContent = val.toFixed(2) + (suffix !== undefined ? suffix : '°');
+    if (colorFn) el.style.color = colorFn(val);
+  }
+
+  setVal('total-front', tf,       '°', v => Math.abs(v) < 0.01 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
+  setVal('total-rear',  tr,       '°', v => Math.abs(v) < 0.01 ? '#94a3b8' : v > 0 ? '#0891b2' : '#a21caf');
+  setVal('thrust-val',  thrust_d, '°', v => Math.abs(v) < 0.01 ? '#0891b2' : '#a21caf');
+
+  // Toe direction labels
+  function setToeLabel(id, val) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (val == null)          { el.textContent = '–'; el.className = 'tc-lbl toe-zero'; }
+    else if (Math.abs(val) < 0.01) { el.textContent = 'zero'; el.className = 'tc-lbl toe-zero'; }
+    else if (val > 0)         { el.textContent = 'in';  el.className = 'tc-lbl toe-in'; }
+    else                      { el.textContent = 'out'; el.className = 'tc-lbl toe-out'; }
+  }
+  setToeLabel('lbl-total-front', tf);
+  setToeLabel('lbl-total-rear',  tr);
+
+  // Thrust direction label (negative = left)
+  const thrustLbl = document.getElementById('lbl-thrust');
+  if (thrustLbl) {
+    if (thrust_d == null)              { thrustLbl.textContent = '–';     thrustLbl.className = 'tc-lbl toe-zero'; }
+    else if (Math.abs(thrust_d) < 0.01){ thrustLbl.textContent = 'straight'; thrustLbl.className = 'tc-lbl toe-zero'; }
+    else if (thrust_d < 0)             { thrustLbl.textContent = 'left';  thrustLbl.className = 'tc-lbl toe-out'; }
+    else                               { thrustLbl.textContent = 'right'; thrustLbl.className = 'tc-lbl toe-in'; }
+  }
+
+  drawThrust(thrust_d);
+
+  // Track width (only if string spacing has been entered)
+  const SS = gv('SS');
+  const ftEl = document.getElementById('front-track');
+  const rtEl = document.getElementById('rear-track');
+  const tdEl = document.getElementById('track-diff');
+  if (SS !== null) {
+    if (fl_hub != null && fr_hub != null) {
+      ftEl.textContent = (SS - fl_hub - fr_hub).toFixed(1);
+    } else { ftEl.textContent = '—'; }
+    if (rl_hub != null && rr_hub != null) {
+      rtEl.textContent = (SS - rl_hub - rr_hub).toFixed(1);
+    } else { rtEl.textContent = '—'; }
+  } else {
+    ftEl.textContent = '---';
+    rtEl.textContent = '---';
+  }
+  if (tdEl) tdEl.textContent = track_diff != null ? track_diff.toFixed(1) : '—';
+}
+
+/* ── Wire up inputs ── */
+INPUTS.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => { saveValues(); calculate(); });
+});
+
+/* ── Init ── */
+loadValues();
+calculate();
+</script>
+</body>
+</html>
