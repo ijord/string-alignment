@@ -237,27 +237,26 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
       <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▲ FRONT</div>
       <div style="display:flex; align-items:stretch; gap:4px; justify-content:center;">
 
-        <!-- Col 1: Left inputs + string -->
-        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="A_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="B_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="C_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="D_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
+        <!-- Col 1: Left inputs -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="A_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="B_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
-          <div style="display:flex; flex-direction:column; align-items:center; margin-left:4px;">
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
-            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="C_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="D_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
+        </div>
+        <!-- Left string -->
+        <div id="str-left_b" style="display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; transform-origin:center; transition:transform 0.3s ease;">
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+          <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
         </div>
 
         <!-- Col 2: Left tires -->
-        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; position:relative; z-index:2;">
           <div style="display:flex; flex-direction:column; align-items:center;">
             <canvas class="tire-indicator" id="cvs-fl_b" width="72" height="100"></canvas>
             <div id="val-fl_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
@@ -271,7 +270,7 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
         </div>
 
         <!-- Col 3: Center stats -->
-        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px;">
+        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px; position:relative; z-index:2;">
           <div style="text-align:center;">
             <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Front Toe</div>
             <div id="total-front_b" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
@@ -291,7 +290,7 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
         </div>
 
         <!-- Col 4: Right tires -->
-        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; position:relative; z-index:2;">
           <div style="display:flex; flex-direction:column; align-items:center;">
             <canvas class="tire-indicator" id="cvs-fr_b" width="72" height="100"></canvas>
             <div id="val-fr_b" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
@@ -304,22 +303,21 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
           </div>
         </div>
 
-        <!-- Col 5: Right string + inputs -->
-        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <div style="display:flex; flex-direction:column; align-items:center; margin-right:4px;">
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
-            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+        <!-- Right string -->
+        <div id="str-right_b" style="display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; transform-origin:center; transition:transform 0.3s ease;">
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+          <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+        </div>
+        <!-- Col 5: Right inputs -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="E_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="F_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="E_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="F_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="G_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="H_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="G_b" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="H_b" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
         </div>
 
@@ -380,27 +378,26 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
       <div style="font-size:0.65rem; color:#94a3b8; letter-spacing:2px; text-align:center; padding:4px 0;">▲ FRONT</div>
       <div style="display:flex; align-items:stretch; gap:4px; justify-content:center;">
 
-        <!-- Col 1: Left inputs + string -->
-        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="A_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="B_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="C_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="D_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
+        <!-- Col 1: Left inputs -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="A_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="B_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
-          <div style="display:flex; flex-direction:column; align-items:center; margin-left:4px;">
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
-            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="C_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="D_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
+        </div>
+        <!-- Left string -->
+        <div id="str-left_a" style="display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; transform-origin:center; transition:transform 0.3s ease;">
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+          <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:2px; margin:3px 0;">STRING</div>
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
         </div>
 
         <!-- Col 2: Left tires -->
-        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; position:relative; z-index:2;">
           <div style="display:flex; flex-direction:column; align-items:center;">
             <canvas class="tire-indicator" id="cvs-fl_a" width="72" height="100"></canvas>
             <div id="val-fl_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
@@ -414,7 +411,7 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
         </div>
 
         <!-- Col 3: Center stats -->
-        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px;">
+        <div style="flex:0 0 auto; width:80px; display:flex; flex-direction:column; justify-content:space-around; align-items:center; border-left:2px solid #e2e8f0; border-right:2px solid #e2e8f0; padding:8px 4px; gap:4px; position:relative; z-index:2;">
           <div style="text-align:center;">
             <div style="font-size:0.62rem; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">Front Toe</div>
             <div id="total-front_a" class="si-val" style="font-size:1rem; margin-top:2px;">—</div>
@@ -434,7 +431,7 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
         </div>
 
         <!-- Col 4: Right tires -->
-        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0;">
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; gap:8px; padding:4px 0; position:relative; z-index:2;">
           <div style="display:flex; flex-direction:column; align-items:center;">
             <canvas class="tire-indicator" id="cvs-fr_a" width="72" height="100"></canvas>
             <div id="val-fr_a" class="tc-val toe-zero" style="font-size:0.85rem; font-weight:700; margin-top:2px;">—</div>
@@ -447,22 +444,21 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
           </div>
         </div>
 
-        <!-- Col 5: Right string + inputs -->
-        <div style="display:flex; flex-direction:row; align-items:stretch; flex:0 0 auto;">
-          <div style="display:flex; flex-direction:column; align-items:center; margin-right:4px;">
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
-            <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
-            <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+        <!-- Right string -->
+        <div id="str-right_a" style="display:flex; flex-direction:column; align-items:center; position:relative; z-index:1; transform-origin:center; transition:transform 0.3s ease;">
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#f59e0b,#d97706); border-radius:2px;"></div>
+          <div style="font-size:0.55rem; color:#b45309; writing-mode:vertical-rl; letter-spacing:2px; margin:3px 0;">STRING</div>
+          <div style="flex:1; width:3px; background:linear-gradient(to bottom,#d97706,#f59e0b); border-radius:2px;"></div>
+        </div>
+        <!-- Col 5: Right inputs -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="E_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="F_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
-          <div style="display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="E_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="F_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
-              <div class="input-cell"><input type="number" id="G_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
-              <div class="input-cell"><input type="number" id="H_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
-            </div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <div class="input-cell"><input type="number" id="G_a" step="0.01" placeholder="0.00"><div class="meas-label">front</div></div>
+            <div class="input-cell"><input type="number" id="H_a" step="0.01" placeholder="0.00"><div class="meas-label">rear</div></div>
           </div>
         </div>
 
@@ -566,6 +562,7 @@ canvas.tire-indicator { display: block; margin: 0 auto; }
     <ol style="padding-left:1.2em; display:flex; flex-direction:column; gap:8px;">
       <li>Use the same unit of measurement for all entries — the calculator outputs results in degrees regardless of unit.</li>
       <li>The two orange <strong>STRING</strong> bars represent the measurement strings running alongside the car. <strong>The strings must be parallel to each other, but do not need to be parallel to the vehicle.</strong></li>
+      <li>String angle visualization is to assist understanding, not because they need to be parallel to the car.</li>
       <li>All wheel-to-string measurements are made <strong>perpendicular to the string</strong>. Measure from the front and rear edge of each wheel rim to the adjacent string.</li>
       <li>Enter the wheelbase using the same unit as the string measurements. This data is needed to calculate if the strings are not parallel to the vehicle.</li>
       <li>Enter the actual wheel diameter at the rim edge where you are measuring — not the nominal wheel size. Enter one value for the front axle and one for the rear.</li>
@@ -909,6 +906,21 @@ function calculate(sfx) {
   const rl_hub = (C != null && D != null) ? (C + D) / 2 : null;
   const rr_hub = (G != null && H != null) ? (G + H) / 2 : null;
 
+  // String angle relative to car axis — strings are always parallel so both tilt identically.
+  // Use average of left and right computed angles, 20× amplified, capped ±10° display.
+  const STR_AMP = 30;
+  const strLeft  = document.getElementById('str-left_'  + sfx);
+  const strRight = document.getElementById('str-right_' + sfx);
+  {
+    const leftRaw  = (fl_hub != null && rl_hub != null && K) ? Math.atan2(rl_hub - fl_hub, K) * 180 / Math.PI : null;
+    const rightRaw = (fr_hub != null && rr_hub != null && K) ? Math.atan2(fr_hub - rr_hub, K) * 180 / Math.PI : null;
+    const avgRaw = leftRaw != null && rightRaw != null ? (leftRaw + rightRaw) / 2
+                 : leftRaw != null ? leftRaw : rightRaw != null ? rightRaw : 0;
+    const visDeg = Math.max(-10, Math.min(10, avgRaw * STR_AMP));
+    if (strLeft)  strLeft.style.transform  = `rotate(${visDeg}deg)`;
+    if (strRight) strRight.style.transform = `rotate(${visDeg}deg)`;
+  }
+
   let r = null;
   if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && K) {
     const sin_arg = (fl_hub - fr_hub - rl_hub + rr_hub) / (2 * K);
@@ -933,7 +945,9 @@ function calculate(sfx) {
   const fr_d     = fr_toe  != null ? r2d(fr_toe)  : null;
   const rl_d     = rl_toe  != null ? r2d(rl_toe)  : null;
   const rr_d     = rr_toe  != null ? r2d(rr_toe)  : null;
-  const thrust_d = r       != null ? r2d(r)        : null;
+  // Thrust angle = rear axle asymmetry relative to car centerline = (RL − RR) / 2
+  // r is retained only as the string-offset correction applied to individual toe readings.
+  const thrust_d = (rl_d != null && rr_d != null) ? (rl_d - rr_d) / 2 : null;
 
   let track_diff = null;
   if (fl_hub != null && fr_hub != null && rl_hub != null && rr_hub != null && r != null) {
